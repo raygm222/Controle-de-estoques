@@ -51,8 +51,8 @@ int removerItens(char nome[100][50],
         int encontrado=0;
         for(int i=0; i<contador; i++){
             if (strcmp(nome[i], nome2)==0){
+                encontrado=1;
                 if(quantidadeRemover <= quant[i]){
-                    encontrado=1;
                     quant[i]= quant[i]-quantidadeRemover;
                     if (quant[i]==0){
                         for (int j=i+1; j<contador; j++){
@@ -66,11 +66,11 @@ int removerItens(char nome[100][50],
                     }
                 } else {
                     printf("Estoque insuficiente.");
-                    printf("Quantidade disponivel: %d", quant[i]);
+                    printf("Quantidade disponivel: %d\n", quant[i]);
                 } break;
             }
         } if (encontrado==0){
-            printf("Item não encontrado.");
+            printf("Item não encontrado.\n");
         }
         return contador;
     
