@@ -12,7 +12,10 @@ void adicionar(){
     char nome[50];
     int quant;
     printf ("Digite o nome do Item:");
-    scanf ("%49s", nome);
+    getchar();
+    fgets(nome, sizeof(nome), stdin);
+    nome[strcspn(nome,"\n")]='\0';
+    
     printf ("Digite a quantidade:");
     scanf ("%d", &quant);
     fprintf (arquivo,"%s\n %d\n", nome, quant);
@@ -30,8 +33,14 @@ int carregarItens(
             return -1;
         }
         int contador=0;
-        while (fscanf(arquivo,"%49s %d",
-        nome[contador], &quant[contador])==2){
+        
+        while (fgets(nome[contador],100,arquivo)!=NULL){
+            nome[contador][strcspn(nome[contador],
+            "\n")]='\0';
+            if(fscanf(arquivo,"%d",&quant[contador])!=1){
+                break;
+            }
+            fgetc(arquivo);
             contador++;
         }
         fclose(arquivo);
@@ -44,8 +53,11 @@ int removerItens(char nome[100][50],
         int quantidadeRemover;
         
         printf("Digite o nome do Item:");
-        scanf("%49s", nome2);
-        printf("Djgite a quantidade a ser removida:");
+        getchar();
+        fgets(nome2,sizeof(nome2),stdin);
+        nome2[strcspn(nome2,"\n")]='\0';
+        
+        printf("Digite a quantidade a ser removida:");
         scanf("%d",&quantidadeRemover);
         
         int encontrado=0;
@@ -102,10 +114,16 @@ void listar(){
     
     char nome[50];
     int quant, contador=0;
-    while(fscanf(arquivo, "%49s %d", nome, &quant)==2){
+   while (fgets(nome,sizeof(nome), arquivo)!=NULL){
+       
+       nome [strcspn(nome,"\n")]='\0';
+       if (fscanf(arquivo,"%d",&quant)!=1){
+           break;
+       }
         printf ("Nome: %s\n", nome);
         printf ("Quantidade: %d\n", quant);
         contador++;
+       fgetc(arquivo);
     }
     if (contador==0){
         printf("O estoque está vazio.\n");
